@@ -1,9 +1,9 @@
 #!/bin/sh
 
-mkfs.vfat -F32 -n BOOT /dev/nvme0n1p1;
-mkfs.btrfs -f -L "Arch Linux" /dev/nvme0n1p2;
+mkfs.vfat -F32 -n ARCHBOOT /dev/nvme0n1p5;
+mkfs.btrfs -f -L "Arch Linux" /dev/nvme0n1p6;
 
-mount /dev/nvme0n1p2 /mnt;
+mount /dev/nvme0n1p6 /mnt;
 btrfs subvolume create /mnt/@;
 btrfs subvolume create /mnt/@home;
 btrfs subvolume create /mnt/@srv;
