@@ -23,6 +23,6 @@ mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@log
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@tmp /dev/nvme0n1p2 /mnt/var/tmp;
 mount /dev/nvme0n1p1 /mnt/boot;
 echo ' ' > /mnt/etc/vconsole.conf
-pacstrap -K /mnt base base-devel linux-zen linux-zen-headers linux-firmware amd-ucode dkms wireplumber pipewire-pulse pipewire-alsa pipewire-jack sof-firmware alsa-firmware networkmanager net-tools ntfs-3g exfat-utils btrfs-progs limine efibootmgr os-prober nano wget curl git;
+pacstrap -K /mnt base base-devel linux-zen linux-zen-headers linux-firmware amd-ucode dkms wireplumber pipewire-pulse pipewire-alsa pipewire-jack sof-firmware alsa-firmware networkmanager net-tools exfat-utils btrfs-progs limine efibootmgr os-prober nano wget curl git;
 genfstab -U /mnt >> /mnt/etc/fstab;
 arch-chroot /mnt;
