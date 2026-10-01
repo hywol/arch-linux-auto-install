@@ -11,9 +11,10 @@ btrfs subvolume create /mnt/@log;
 btrfs subvolume create /mnt/@tmp;
 btrfs subvolume create /mnt/@opt;
 btrfs subvolume create /mnt/@cache;
+btrfs subvolume create /mnt/@snapshot;
 umount /mnt;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@ /dev/nvme0n1p2 /mnt;
-mkdir /mnt/{boot,home,etc,srv,opt,var};
+mkdir /mnt/{boot,home,etc,srv,opt,var,.snapshots};
 mkdir /mnt/var/{log,tmp,cache};
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@home /dev/nvme0n1p2 /mnt/home;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@opt /dev/nvme0n1p2 /mnt/opt;
@@ -21,8 +22,9 @@ mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@srv
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@cache /dev/nvme0n1p2 /mnt/var/cache;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@log /dev/nvme0n1p2 /mnt/var/log;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@tmp /dev/nvme0n1p2 /mnt/var/tmp;
+mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@snapshot /dev/nvme0n1p2 /mnt/.snapshots;
 mount /dev/nvme0n1p1 /mnt/boot;
 echo ' ' > /mnt/etc/vconsole.conf
-pacstrap -K /mnt base base-devel linux-zen linux-zen-headers linux-firmware amd-ucode dkms wireplumber pipewire-pulse pipewire-alsa pipewire-jack sof-firmware alsa-firmware networkmanager net-tools exfat-utils btrfs-progs limine efibootmgr os-prober nano wget curl git;
+pacstrap -K /mnt base base-devel linux linux-headers linux-firmware amd-ucode dkms wireplumber pipewire-pulse pipewire-alsa pipewire-jack sof-firmware alsa-firmware networkmanager net-tools exfat-utils btrfs-progs limine efibootmgr os-prober nano wget curl git;
 genfstab -U /mnt >> /mnt/etc/fstab;
 arch-chroot /mnt;
