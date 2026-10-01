@@ -16,6 +16,8 @@ umount /mnt;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@ /dev/nvme0n1p2 /mnt;
 mkdir /mnt/{boot,home,etc,srv,opt,var,.snapshots};
 mkdir /mnt/var/{log,tmp,cache};
+chmod 750 /mnt/.snapshots;
+chown :wheel /mnt/.snapshots;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@home /dev/nvme0n1p2 /mnt/home;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@opt /dev/nvme0n1p2 /mnt/opt;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@srv /dev/nvme0n1p2 /mnt/srv;
