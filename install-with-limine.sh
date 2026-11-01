@@ -1,8 +1,13 @@
 #!/bin/sh
 
-mkfs.vfat -F32 -n BOOT /dev/nvme0n1p1;
-mkfs.btrfs -f -L "Arch Linux" /dev/nvme0n1p2;
+echo "Creating filesystem..."
+{
+  mkfs.vfat -F32 -n BOOT /dev/nvme0n1p1;
+  mkfs.btrfs -f -L "Arch Linux" /dev/nvme0n1p2;
+}
 
+echo "Creating btrfs subvolumes..."
+{
 mount /dev/nvme0n1p2 /mnt;
 btrfs subvolume create /mnt/@;
 btrfs subvolume create /mnt/@home;
@@ -13,6 +18,10 @@ btrfs subvolume create /mnt/@opt;
 btrfs subvolume create /mnt/@cache;
 btrfs subvolume create /mnt/@snapshot;
 umount /mnt;
+}
+
+echo "Setting up Arch Linux..."
+{
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@ /dev/nvme0n1p2 /mnt;
 mkdir /mnt/{boot,home,etc,srv,opt,var,.snapshots};
 mkdir /mnt/var/{log,tmp,cache};
@@ -29,4 +38,21 @@ mount /dev/nvme0n1p1 /mnt/boot;
 echo ' ' > /mnt/etc/vconsole.conf
 pacstrap -K /mnt base base-devel linux linux-headers linux-firmware amd-ucode dkms wireplumber pipewire-pulse pipewire-alsa pipewire-jack sof-firmware alsa-firmware networkmanager net-tools exfat-utils btrfs-progs limine efibootmgr os-prober nano wget curl git;
 genfstab -U /mnt >> /mnt/etc/fstab;
+}
+
+read -rp "New User Name: " USERNAME
+
+arch-chroot /mnt useradd -m -G wheel -s /bin/bash "$USERNAME";
+
+arch-chroot /mnt passwd "$USERNAME";
+
+arch-chroot /mnt bash -c \
+    "echo '%wheel ALL=(ALL:ALL) ALL' > /etc/sudoers.d/10-wheel";
+
+arch-chroot /mnt chmod 440 /etc/sudoers.d/10-wheel;
+arch-chroot /mnt visudo -cf /etc/sudoers;
+
+echo "User $USERNAME created!";
+
+
 arch-chroot /mnt;
