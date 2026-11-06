@@ -25,5 +25,8 @@ do
             genfstab -U /mnt >> /mnt/etc/fstab;
             break
             ;;
+        *)
+            echo "Input vaild numbers."
+            ;;
     esac
 done
