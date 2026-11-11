@@ -16,3 +16,5 @@ Repartitioning 1536M Boot Partition and Primary Partition, launch it.
  * Install on Intel System/인텔 CPU PC에 설치
  
   Change amd-ucode into intel-ucode.
+
+## 설치 후/After Installation
