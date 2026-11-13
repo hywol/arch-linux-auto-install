@@ -1,6 +1,11 @@
 # arch-linux-auto-install
 Arch Linux Kernel Auto Install Script/아치 리눅스 커널 자동 설치 스크립트
 
+## 기능 / Features
+
+ * Limine 부트로더 / Limine Bootloader
+ * CPU 및 커널별 설치옵션 제공 / Provide installation option to select CPU and Kernels
+
 ## 사용법/How to Use
 
 Repartitioning 1536M Boot Partition and Primary Partition, launch it.
