@@ -35,9 +35,12 @@ mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@log
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@tmp /dev/nvme0n1p2 /mnt/var/tmp;
 mount -o noatime,commit=120,ssd,discard,space_cache=v2,compress=zstd,subvol=@snapshot /dev/nvme0n1p2 /mnt/.snapshots;
 mount /dev/nvme0n1p1 /mnt/boot;
-echo ' ' > /mnt/etc/vconsole.conf
-pacstrap -K /mnt base base-devel linux linux-headers linux-firmware amd-ucode dkms wireplumber pipewire-pulse pipewire-alsa pipewire-jack sof-firmware alsa-firmware networkmanager net-tools exfat-utils btrfs-progs limine efibootmgr os-prober nano wget curl git;
-genfstab -U /mnt >> /mnt/etc/fstab;
+echo ' ' > /mnt/etc/vconsole.conf;
+}
+
+echo "Installing Arch Linux..."
+{
+./select-installation.sh;
 }
 
 read -rp "New User Name: " USERNAME
